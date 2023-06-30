@@ -1,0 +1,562 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>MongoDB基本使用 | MaoJiu的博客</title>
+        <meta name="author" content="Mao Jiu" />
+        <meta name="description" content="在午夜时分相遇，寻找真实的自己" />
+        <meta name="keywords" content="blog MaoJiu" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/blog/images/favicon.png" />
+        <script src="https://static-argvchs.netlify.app/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://static-argvchs.netlify.app" crossorigin />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/libs/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/blog/js/lib/highlight.js"></script>
+
+
+
+<script src="/blog/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://static-argvchs.netlify.app/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/blog/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/blog/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <div id="desktop-menu">
+        <a class="title" href="/blog/">
+            <span>MAOJIU的博客</span>
+        </a>
+        
+        <a href="/blog/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blog/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blog/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blog/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blog/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;MAOJIU的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blog/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </div>
+</nav>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <transition name="into">
+                <div id="main" v-show="!loading">
+                    <div class="article">
+    <div>
+        <h1>MongoDB基本使用</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/3/19
+        </span>
+        
+        <span class="category">
+            <a href="/blog/categories/mongodb/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                mongodb
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/blog/tags/mongodb/" style="color: #03a9f4">mongodb</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>mongodb 不同于 MySQL 这种关系型数据库，它是一个基于分布式文件存储的 Nosql 数据库。mongodb 支持的数据结构非常松散，可以通过 json 格式来修改插入数据。在 mongodb 中没有数据表，而是一个一个的 collection 集合。</p>
+<span id="more"></span>
+
+<h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><ul>
+<li><p>查看数据库</p>
+<blockquote>
+<p>show databses</p>
+</blockquote>
+</li>
+<li><p>选择数据库</p>
+<blockquote>
+<p>use database[数据库名称] 选择不存在的数据库会隐式创建该数据库</p>
+</blockquote>
+</li>
+<li><p>删除数据库</p>
+<blockquote>
+<p>先选择到要删除的数据库 db.dropDatabase</p>
+</blockquote>
+</li>
+<li><p>查看集合</p>
+<blockquote>
+<p>show collections</p>
+</blockquote>
+</li>
+<li><p>创建集合</p>
+<blockquote>
+<p>db.createCollection(‘c1’)</p>
+</blockquote>
+</li>
+<li><p>删除集合</p>
+<blockquote>
+<p>db.集合名.drop()</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="数据库的增删改查操作"><a href="#数据库的增删改查操作" class="headerlink" title="数据库的增删改查操作"></a>数据库的增删改查操作</h4><ul>
+<li><p>增</p>
+<blockquote>
+<p>语法：db.集合名.insert(JSON 数据)</p>
+</blockquote>
+<blockquote>
+<p>集合存在，则直接插入数据，集合不存在，隐式创建并插入</p>
+</blockquote>
+<blockquote>
+<p>当同时插入多条数据时，将多条数据用数组包裹，每条数据为一个 json 数据对象</p>
+</blockquote>
+<blockquote>
+<p>mongodb 支持 js 的部分语法，可以使用 for 循环一次性插入多条数据</p>
+</blockquote>
+</li>
+</ul>
+<p>示例：</p>
+<pre><code class="sh">use test2
+db.c1.insert(&#123;username:&quot;xzy&quot;,age:18&#125;)
+db.c1.insertMany(&#123;&#125;)
+留心一：数据库和集合不存在时，都隐式创建
+留心二：对象的键同意不加引号方便看，但是查看集合数据时系统会自动加上
+留心三：mongodn会给每条数据添加一个全球唯一的ID
+
+插入多条数据：
+传递数组，数组中每个元素都是一个JSON类型
+db.c1.insert([
+  &#123;username:&quot;z3&quot;,age:3&#125;,
+  &#123;username:&quot;z4&quot;,age:4&#125;,
+  &#123;username:&quot;z5&quot;,age:5&#125;
+])
+插入十条数据：
+
+for(var i=1;i&lt;=10;i++)&#123;
+  db.c1.insert(&#123;username:&quot;a&quot;+i,age:i&#125;)
+&#125;
+</code></pre>
+<ul>
+<li>删<blockquote>
+<p>语法：db.集合名.remove(条件[,是否删除一条])<br>是否删除一条 true 是，false 否 默认为 false</p>
+</blockquote>
+</li>
+</ul>
+<p>示例：</p>
+<pre><code class="sh">当存在多条符合条件的行时，只删除一条
+db.c3.remove(&#123;username:&quot;zs30&quot;&#125;,true)
+存在多条时，全部删除
+db.c3.remove(&#123;username:&quot;zs30&quot;&#125;,false)
+</code></pre>
+<ul>
+<li><p>改</p>
+<blockquote>
+<p>语法：db.集合名.update（条件，新数据[,是否新增，是否修改多条]）</p>
+</blockquote>
+<blockquote>
+<p>是否新增：指条件匹配不到数据则插入，true 是插入，false 否不插入默认；是否修改多条：指将匹配成功的数据都修改（true 是，false 否默认）</p>
+</blockquote>
+</li>
+</ul>
+<p>示例：</p>
+<pre><code class="sh">db.c3.update(&#123;username:&quot;zs1&quot;&#125;,&#123;username:&quot;zs2&quot;&#125;)#这样是替换，将符合条件的行直接换成这个
+</code></pre>
+<p>还可通过运算符来指定修改，运算符有：</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$inc​</td>
+<td>递增</td>
+</tr>
+<tr>
+<td>$rename</td>
+<td>重命名列</td>
+</tr>
+<tr>
+<td>$set</td>
+<td>修改列值</td>
+</tr>
+<tr>
+<td>$unset</td>
+<td>删除列</td>
+</tr>
+</tbody></table>
+<p>更新不存在的值,若不存在则不会有操作。在最后加一个 true 参数，作用是，如果不存在，则插入该条数据,默认为 false 则不管。第四个参数如果为 true，当匹配到多条条件符合的元素时，都更改，默认为 false，只改一条</p>
+<p>示例：</p>
+<pre><code class="sh">db.c4.update(&#123;username:&quot;熊子阳&quot;&#125;,&#123;
+    $set:&#123;username:&quot;Aoi&quot;&#125;,
+    $inc:&#123;age:971&#125;,
+    $rename:&#123;who:&quot;sex&quot;&#125;,
+    $unset:&#123;other:true&#125;
+&#125;)
+db.c3.update(&#123;username:&quot;zs30&quot;&#125;,&#123;$set:&#123;age:30&#125;&#125;,true）
+db.c3.update(&#123;&#125;,&#123;$set:&#123;age:20&#125;&#125;,false,true)
+</code></pre>
+<ul>
+<li>查<blockquote>
+<p>语法：db.集合名.find(条件，[查询的列])</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>格式化：db.集合名.find().pretty()</p>
+</blockquote>
+<blockquote>
+<p>db.findOne() 只返回查询结果的第一条；db.findMany() 返回多条</p>
+</blockquote>
+<p>示例：</p>
+<pre><code>条件：
+    查询所有数据  				&#123;&#125;或者不写
+    查询age=6的数据 			 &#123;age:6&#125;
+    查询age=6且性别为男   &#123;age:6,sex:&#39;男&#39;&#125;
+
+查询的列
+    不写 - 查询全部的列
+    &#123;age:1&#125; 只显示age列，可以显示多个想要的列&#123;user:1,age:1.......&#125;
+    &#123;age:0&#125; 除了age列外都显示 可以不显示多个想要的列&#123;user:0,age:0&#125;
+    无论怎么写系统自定义_id都会在
+</code></pre>
+<p>也可以通过运算符来指定查询：</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$gt</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>$gte</td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td>$lt</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>$lte</td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td>$ne</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>$in</td>
+<td>in</td>
+</tr>
+<tr>
+<td>$nin</td>
+<td>Not in</td>
+</tr>
+</tbody></table>
+<p>此时查询语法：</p>
+<pre><code class="sh">db.集合名.find(&#123;
+    键：&#123;运算符：值&#125;
+&#125;)
+</code></pre>
+<p>示例：</p>
+<pre><code class="sh">年龄小于5的
+db.c1.find(&#123;age:&#123;$lt:5&#125;&#125;)
+
+年龄等于3、4、5的
+db.c1.find(&#123;age:&#123;$in:[3,4,5]&#125;&#125;)
+</code></pre>
+<h4 id="try-catch"><a href="#try-catch" class="headerlink" title="try catch"></a>try catch</h4><p>当一次性插入或者更新 n 条数据时，mongodb 不会因为一条数据的错误而使得整个操作终止并回滚，只会终止接下来的操作，所以可以使用 try catch 来进行异常的捕捉处理。如下：</p>
+<pre><code>try&#123;
+  db.c1.insertMany([
+  &#123;&quot;_id&quot;:1,name:&quot;xzy&quot;&#125;,
+  &#123;&quot;_id&quot;:2,name:&quot;lhl&quot;&#125;,
+    &#123;&quot;_id&quot;:3,name:&quot;yzh&quot;&#125;,
+    &#123;&quot;_id&quot;:4,name:&quot;lwy&quot;&#125;...
+&#125;
+  ])
+&#125;catch(e)&#123;
+    print
+&#125;
+</code></pre>
+<h4 id="排序与分页"><a href="#排序与分页" class="headerlink" title="排序与分页"></a>排序与分页</h4><ul>
+<li>排序<blockquote>
+<p>语法：db.集合名.find().sort(JSON 数据)</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>这里 JSON 数据的键就是要排序的列&#x2F;字段，值为排序的方式：1 升序，-1 降序</p>
+</blockquote>
+<p>示例：</p>
+<pre><code class="sh">db.c2.find().sort(&#123;age:-1&#125;)
+</code></pre>
+<ul>
+<li>分页<blockquote>
+<p>语法：db.集合名.find().skip(数字).limit(数字)</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>这里的 skip 为指定要跳过的数量，limit 为限制查询的数量，两者结合实现分页的效果</p>
+</blockquote>
+<p>示例：</p>
+<pre><code class="sh">db.c2.find().sort(&#123;age:-1&#125;).skip(1).limit(2)
+</code></pre>
+<h4 id="聚合查询"><a href="#聚合查询" class="headerlink" title="聚合查询"></a>聚合查询</h4><blockquote>
+<p>语法：db.集合名称.aggregate([{管道:{表达式}}….])</p>
+</blockquote>
+<p>常用的管道有：</p>
+<ul>
+<li>$group 将集合中的文档分组，用于统计结果</li>
+<li>$match 过滤数据，只要输出符合条件的文档</li>
+<li>$sort 聚合数据进一步排序</li>
+<li>$skip 跳过指定文档数</li>
+<li>$limit 限制集合数据返回文档数</li>
+</ul>
+<p>常用表达式有：</p>
+<ul>
+<li>$sum 总和</li>
+<li>$avg 平均</li>
+<li>$min 最小值</li>
+<li>$max 最大值</li>
+</ul>
+<p>示例：<br>_id 必须加，后跟指定列</p>
+<pre><code class="sh">男女生的总年龄
+db.c3.aggregate([
+    &#123;
+        $group:&#123;
+            _id:&quot;$sex&quot;,
+            res:&#123;$sum:&quot;$sex&quot;&#125;
+    &#125;
+    &#125;
+])
+求男女总人数
+db.c3.aggregate([
+    &#123;
+        $group:&#123;
+            _id:&quot;$sex&quot;,
+            res:&#123;$sum:1&#125;
+    &#125;
+    &#125;
+])
+
+求学生总数和平均年龄
+db.c3.aggregate([
+    &#123;
+        $group:&#123;
+            _id:null,
+            res:&#123;$sum:1&#125;,
+      total_avg:&#123;$avg:&quot;$age&quot;&#125;
+    &#125;
+    &#125;
+])
+
+查询男生女生人数，升序排序
+db.c3.aggregate([
+    &#123;$group:&#123;	_id:&quot;$sex&quot;,res:&#123;$sum:1&#125;&#125;&#125;,
+    &#123;$sort:&#123;res:1&#125;&#125;
+])
+</code></pre>
+<p>以上就是 mongodb 的一些基本增删改查操作。</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 MaoJiu的博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Mao Jiu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+                </div>
+            </transition>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/blog/js/main.js"></script>
+        <script>
+            console.info("Welcome to Argvchs' blog!");
+            if (!window.hasOwnProperty("ontouchstart")) {
+                let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+                document.body.append(document.createRange().createContextualFragment(html));
+            }
+        </script>
+        
+        
+<script
+    src="https://giscus.app/client.js"
+    data-repo="maojiu-bb/blog"
+    data-repo-id="R_kgDOJ2GUoQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJ2GUoc4CXlfy"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+        
+    </body>
+</html>

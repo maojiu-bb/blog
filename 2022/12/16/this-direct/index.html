@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>函数内this指向问题 | MaoJiu的博客</title>
+        <meta name="author" content="Mao Jiu" />
+        <meta name="description" content="在午夜时分相遇，寻找真实的自己" />
+        <meta name="keywords" content="blog MaoJiu" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/blog/images/favicon.png" />
+        <script src="https://static-argvchs.netlify.app/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://static-argvchs.netlify.app" crossorigin />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/libs/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/blog/js/lib/highlight.js"></script>
+
+
+
+<script src="/blog/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://static-argvchs.netlify.app/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/blog/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/blog/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <div id="desktop-menu">
+        <a class="title" href="/blog/">
+            <span>MAOJIU的博客</span>
+        </a>
+        
+        <a href="/blog/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blog/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blog/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blog/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blog/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;MAOJIU的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blog/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </div>
+</nav>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <transition name="into">
+                <div id="main" v-show="!loading">
+                    <div class="article">
+    <div>
+        <h1>函数内this指向问题</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2022/12/16
+        </span>
+        
+        <span class="category">
+            <a href="/blog/categories/JavaScript/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                JavaScript
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/blog/tags/JavaScript/" style="color: #00bcd4">JavaScript</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>在 js 中，this 的指向问题一直是一个需要特别注意的点，在有些情况下，this 的指向很容易弄错，并且可能需要手动修改 this 的指向。</p>
+<span id="more"></span>
+
+<p><strong>1.函数内部的 this 指向</strong></p>
+<p>这些 this 指向，是当我们调用的时候确定的，调用方式不同 this 的指向也会不同，一般指向调用者。</p>
+<p>（1）普通函数： this 指向的是 window</p>
+<p>（2）构造函数： this 指向实例对象，原型对象里面的方法也指向实例对象</p>
+<pre><code>        function Star() &#123;
+            console.log(this);
+        &#125;
+        Star.prototype.sing = function() &#123;
+            console.log(this);
+        &#125;
+        var ldh = new Star();
+</code></pre>
+<p>（3）对象方法： this 指向方法的所属对象</p>
+<pre><code>        var o = &#123;
+            sayHi: function() &#123;
+                console.log(this);   // this 指向 o
+            &#125;
+        &#125;
+        o.sayHi();
+</code></pre>
+<p>（4）事件绑定函数： this 指向绑定事件对象</p>
+<pre><code>     var btn = document.querySelector(&quot;button&quot;);
+        btn.onclick = function() &#123;
+            console.log(this);   // 点击按钮就可调用这个函数
+        &#125;   // this 指向这个绑定点击事件的按钮 button
+</code></pre>
+<p>(5)定时器函数：this 指向 window</p>
+<pre><code>        setInterval(function() &#123;
+            console.log(this);    // 每隔一秒自动调用一次
+        &#125; , 1000);
+</code></pre>
+<p>(6)立即执行函数：this 指向的是 window</p>
+<pre><code>       (function() &#123;
+            console.log(&quot;&quot;);    // 立即执行函数是自动调用的
+        &#125;)();
+</code></pre>
+<p><strong>2.改变函数内部的 this 指向</strong></p>
+<p>改变函数内部的 this 指向有三个方法可以实现：</p>
+<p>（1）call()</p>
+<p>call 第一个可以调用函数 第二个可以改变函数内的 this 指向，括号里面第一个值为要改变的对象，括号里面还可传递参数， call 的主要作用可以实现继承</p>
+<pre><code>        var o1 = &#123;
+          name: &quot;maojiu&quot;
+      &#125;
+      function fn1(a , b) &#123;
+          console.log(this);
+          console.log(a + b);
+      &#125;
+      fn1.call(o1 , 1 ,2);
+</code></pre>
+<p>（2）apply()</p>
+<p>apply 也是调用函数 第二个可以改变函数内部的 this 指向，apply 里面的参数必须是数组(伪数组)， apply 的主要作用，比如可以利用 apply 借助于数学内置对象求最大最小值</p>
+<pre><code>      var arr = [1 , 22 , 66 , 99];
+      var max = Math.max.apply(Math , arr);
+      var min = Math.min.apply(Math , arr);
+      console.log(max , min);
+</code></pre>
+<p>（3）bind()</p>
+<p>band 与 call、apply 不同的是不会调用原来的函数，可以改变原来函数内部的 this 指向，band 返回的是原函数改变 this 之后产生的新函数</p>
+<pre><code>        var o3 = &#123;
+          name: &quot;pugec&quot;
+       &#125;
+      function fn3(a , b) &#123;
+            console.log(this);
+            console.log(a + b);
+       &#125;
+       var f = fn3.bind(o3 , 1 ,2);
+       f();
+</code></pre>
+<p><strong>3.call apply bind 总结</strong></p>
+<p>相同点：</p>
+<p>都可以改变函数内部的 this 指向</p>
+<p>不同点：</p>
+<p>（1）call 和 apply 会调用函数，并且改变函数内部的 this 指向</p>
+<p>（2）call 和 apply 传递的参数不一样，call 传递参数 aru1,aru2…的形式，apply 必须以数组的形式[arg]</p>
+<p>（3）bind 不会调用函数，可以改变函数内部的 this 指向</p>
+<p>主要应用场景：</p>
+<p>（1）call 常用做继承</p>
+<p>（2）apply 常跟数组有关，比如借助数学内置对象求相关数值</p>
+<p>（3）bind 不调用函数，但是还想改变 this 指向，如改变定时器内部的 this 指向</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 MaoJiu的博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Mao Jiu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+                </div>
+            </transition>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/blog/js/main.js"></script>
+        <script>
+            console.info("Welcome to Argvchs' blog!");
+            if (!window.hasOwnProperty("ontouchstart")) {
+                let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+                document.body.append(document.createRange().createContextualFragment(html));
+            }
+        </script>
+        
+        
+<script
+    src="https://giscus.app/client.js"
+    data-repo="maojiu-bb/blog"
+    data-repo-id="R_kgDOJ2GUoQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJ2GUoc4CXlfy"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+        
+    </body>
+</html>

@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>Ajax的使用 | MaoJiu的博客</title>
+        <meta name="author" content="Mao Jiu" />
+        <meta name="description" content="在午夜时分相遇，寻找真实的自己" />
+        <meta name="keywords" content="blog MaoJiu" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/blog/images/favicon.png" />
+        <script src="https://static-argvchs.netlify.app/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://static-argvchs.netlify.app" crossorigin />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/libs/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/blog/js/lib/highlight.js"></script>
+
+
+
+<script src="/blog/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://static-argvchs.netlify.app/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/blog/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/blog/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <div id="desktop-menu">
+        <a class="title" href="/blog/">
+            <span>MAOJIU的博客</span>
+        </a>
+        
+        <a href="/blog/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blog/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blog/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blog/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blog/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;MAOJIU的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blog/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </div>
+</nav>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <transition name="into">
+                <div id="main" v-show="!loading">
+                    <div class="article">
+    <div>
+        <h1>Ajax的使用</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2022/12/24
+        </span>
+        
+        <span class="category">
+            <a href="/blog/categories/Ajax/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Ajax
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/blog/tags/Ajax/" style="color: #03a9f4">Ajax</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p><strong>什么是 AJAX？</strong></p>
+<p>AJAX 是一种创建交互式网页应用的开发技术，通过客户端与服务器之进行数据交换，使网页内容实现异步更新</p>
+<span id="more"></span>
+
+<p><strong>AJAX 的原理</strong>：通过 XMLHttpRequest 对象来向服务器发出异步请求，从服务器中获得数据，然后用 Javascript 来操作 DOM 从而更新局部页面。</p>
+<p><strong>AJAX 的请求有以下几个步骤：</strong></p>
+<p>1.创建 XMLHttpRequest 对象</p>
+<pre><code>    var xhr = new XMLHttpRequest();
+</code></pre>
+<p>2.使用 open 方法设置请求的方式和 URL 地址从而与服务器连接</p>
+<pre><code>    xhr.open(&#39;method&#39; , &#39;url&#39;);
+</code></pre>
+<p>其中，method 为请求的方式，可以是 GET、POST 等，url 为请求的 url 地址</p>
+<p>3.使用 send 方法发送请求</p>
+<pre><code>    xhr.send();
+</code></pre>
+<p>如果发送的为 GET 请求，()括号里面不需要传递参数；如果发送的为 POST 请求，()括号里面要传递参数,传递的参数采用键值对的形式，中间用等号&#x3D;隔开，当传递多个参数时，参数之间用&amp;符号分开。如下：</p>
+<pre><code>    // get 请求
+    xhr.send();
+    // post 请求
+    xhr.send(&#39;uname=zs&amp;age=18&#39;)
+</code></pre>
+<p>4.设置回调函数来接受返回结果,要使用 onreadystatechange 监听事件</p>
+<pre><code>   xhr.onreadystatechange = function() &#123;&#125;
+</code></pre>
+<p>5.在回调函数中对响应状态进行判断并进行后续操作</p>
+<p>(1)对 Ajax 请求所处的状态（readyState）进行判断，当状态值为 4 时，表示请求完成，意味着数据已经彻底完成或者失败</p>
+<p>(2)对响应状态码（status）进行判断，当状态码为 200 时，表示请求完成，一般用于 GET 和 POST 请求；类似的还有 201，表示已创建，用于 PUT 请求；404 Not Found ，表示服务器无法根据客户端请求找到资源…</p>
+<pre><code>   xhr.onreadystatechange = function() &#123;
+       if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) &#123;
+       console.log(xhr.resopnseText);
+   &#125;
+</code></pre>
+<p><strong>完整的 AJAx 实例</strong></p>
+<pre><code>        // 1. 创建 xhr 对象
+      var xhr = new XMLHttpRequest();
+        // 2. 调用 open()   第一个参数为请求方式,第二个参数为url地址
+        xhr.open(&#39;GET&#39; , &#39;http://www.liulongbin.top:3006/api/getbooks&#39;);
+        // 3. 调用 send()
+        xhr.send();
+        // 4. 监听 onreadystatechange 事件
+        xhr.onreadystatechange = function() &#123;
+            // 判断是否响应 xhr.readyState === 4 &amp;&amp; xhr.status === 200 固定写法
+                if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) &#123;  
+                 // 注意这里的status与响应数据里面的status是不一样的含义
+                // 获取服务器响应数据
+                console.log(xhr.responseText);
+            &#125;
+        &#125;
+</code></pre>
+<p><strong>jQuery 中的 Ajax</strong></p>
+<p>由于 XMLHttpRequest 用法比较复杂，所以 jQuery 对 XMLHttpRequest 进行了封装，提供了一些列 Ajax 相关的函数，极大降低了 Ajax 的使用难度</p>
+<p>jQuery 中发起 Ajax 请求通常有以下三种方法：</p>
+<p>1.$.get()发起 GET 请求，语法如下：</p>
+<pre><code>  $.get(url , [data] , [callbak]);
+</code></pre>
+<p>data 为请求时携带的参数，callback 为请求成功时的回调函数，中括号表示为可选参数，可以没有</p>
+<p>2.$.post()发起 POST 请求</p>
+<pre><code>$.post()的用法与$.get()类似，只是data传递的数据为需要提交的信息，是一个对象，数据采用键值对来表示
+</code></pre>
+<p>3.$.ajax()既可以发起 GET 请求，又可以发起 POST 请求</p>
+<p>相比于前面两个，$.ajax()是一个功能比较综合的函数允许我们对 Ajax 请求进行更详细的配置,基本语法如下：</p>
+<pre><code>$.ajax(&#123;
+    type: &#39;&#39;,  // 请求的方式 如 GET 或 POST
+    url: &#39;&#39;,  // 请求的地址
+    data: &#123;&#125;,  // 请求携带的数据，可以为空
+    success: function() &#123;&#125;  // 请求成功之后的回调函数
+&#125;)
+</code></pre>
+<p>AJAX 的基本使用就是这些了</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 MaoJiu的博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Mao Jiu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+                </div>
+            </transition>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/blog/js/main.js"></script>
+        <script>
+            console.info("Welcome to Argvchs' blog!");
+            if (!window.hasOwnProperty("ontouchstart")) {
+                let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+                document.body.append(document.createRange().createContextualFragment(html));
+            }
+        </script>
+        
+        
+<script
+    src="https://giscus.app/client.js"
+    data-repo="maojiu-bb/blog"
+    data-repo-id="R_kgDOJ2GUoQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJ2GUoc4CXlfy"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+        
+    </body>
+</html>

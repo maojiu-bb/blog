@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>DOM核心重点 | MaoJiu的博客</title>
+        <meta name="author" content="Mao Jiu" />
+        <meta name="description" content="在午夜时分相遇，寻找真实的自己" />
+        <meta name="keywords" content="blog MaoJiu" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/blog/images/favicon.png" />
+        <script src="https://static-argvchs.netlify.app/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://static-argvchs.netlify.app" crossorigin />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/libs/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/blog/js/lib/highlight.js"></script>
+
+
+
+<script src="/blog/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://static-argvchs.netlify.app/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/blog/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/blog/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <div id="desktop-menu">
+        <a class="title" href="/blog/">
+            <span>MAOJIU的博客</span>
+        </a>
+        
+        <a href="/blog/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blog/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blog/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blog/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blog/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;MAOJIU的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blog/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </div>
+</nav>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <transition name="into">
+                <div id="main" v-show="!loading">
+                    <div class="article">
+    <div>
+        <h1>DOM核心重点</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2022/12/3
+        </span>
+        
+        <span class="category">
+            <a href="/blog/categories/JavaScript/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                JavaScript
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/blog/tags/JavaScript/" style="color: #03a9f4">JavaScript</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>关于 DOM 操作，我们主要针对于元素的操作，主要有创建、增加、删除、修改、查询、属性操作、事件操作</p>
+<span id="more"></span>
+
+<p>1.创建</p>
+<ul>
+<li><p>document.write();</p>
+</li>
+<li><p>innerHTML</p>
+</li>
+<li><p>createElement</p>
+</li>
+</ul>
+<p>如：</p>
+<pre><code class="html">&lt;button&gt;点击&lt;/button&gt;
+&lt;p&gt;abc&lt;/p&gt;
+&lt;script&gt;
+  // 1. document.write()
+
+  var btn = document.querySelector(&#39;button&#39;)
+
+  btn.onclick = function () &#123;
+    document.write(&#39;&lt;div&gt;123&lt;/div&gt;&#39;) // 文档执行完毕后 会导致页面重绘现象
+  &#125;
+
+  // 2.element.innerHTML
+
+  // innerHTML  采用数组拼接  而 不用字符串拼接  时 效率高  但结构复杂
+
+  // 3.document.creatElement()
+
+  // craetElement() 创建多个元素的话效率低一些  但是结构清晰
+&lt;/script&gt;
+</code></pre>
+<p>2.增加</p>
+<ul>
+<li><p>appendChild</p>
+</li>
+<li><p>inserBefore</p>
+</li>
+</ul>
+<p>如：</p>
+<pre><code class="html">&lt;ul&gt;
+  &lt;li&gt;123&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+  // 1.创建元素节点
+
+  var li = document.createElement(&#39;li&#39;)
+
+  // 2.添加元素节点 node.appendChild(child)  node 父级   child 子级  在后面追加元素
+
+  var ul = document.querySelector(&#39;ul&#39;)
+
+  ul.appendChild(li)
+
+  // 3.添加节点 node.insertBefore(child,指定元素);
+
+  var lili = document.createElement(&#39;li&#39;)
+
+  ul.insertBefore(lili, ul.children[0])
+
+  // 4.想要添加一个新的元素 : 1.创建元素  2. 添加元素
+&lt;/script&gt;
+</code></pre>
+<p>3.删除</p>
+<ul>
+<li>removeChild</li>
+</ul>
+<p>如：</p>
+<pre><code class="html">&lt;button&gt;删除&lt;/button&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;第1个li&lt;/li&gt;
+
+  &lt;li&gt;第2个li&lt;/li&gt;
+
+  &lt;li&gt;第3个li&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+  // 删除节点 node.removeChild(child)
+
+  // 获取元素
+
+  var btn = document.querySelector(&#39;button&#39;)
+
+  var ul = document.querySelector(&#39;ul&#39;)
+
+  // 注册事件
+
+  btn.onclick = function () &#123;
+    if (ul.children.length == 0) &#123;
+      this.disabled = true
+    &#125; else &#123;
+      ul.removeChild(ul.children[0])
+    &#125;
+  &#125;
+&lt;/script&gt;
+</code></pre>
+<p>4.修改</p>
+<p>主要修改 dom 的元素，dom 元素内容，表单属性值等</p>
+<p>(1) 修改元素属性：src href title 等</p>
+<p>(2) 修改元素内容：innerHTML innerText</p>
+<p>(3) 修改表单元素：value type disabled 等</p>
+<p>(4) 修改样式：style className</p>
+<p>5.查询</p>
+<p>主要获取查询 dom 元素</p>
+<p>（1）DOM 提供的 API 方法: getElementByIb()通过 id 获取、 getElementByTagName()通过标签名获取，方法古老，不推荐使用</p>
+<p>（2）H5 提供的方法：querySelector()、querySelectorAll() 推荐使用</p>
+<p>（3）利用节点获取元素：获取父节点 parentNode() 、 获取子节点 children() &#x2F; childNodes() 、 获取兄弟节点 perviousElementSibling() &#x2F; nextElementSibling()</p>
+<p>6.属性操作</p>
+<p>主要针对自定义属性进行操作</p>
+<p>(1)setAttribute:设置 dom 的属性值</p>
+<p>(2)getAttribute:得到 dom 的属性值</p>
+<p>(3)removeAttribute:移除 dom 的属性</p>
+<p>如：</p>
+<pre><code class="html">&lt;div id=&quot;demo&quot; index=&quot;1&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  // 获取属性值
+
+  var div = document.getElementById(&#39;demo&#39;)
+
+  // 1.element.属性
+
+  console.log(div.id)
+
+  // 2.element.getAttribute(&#39;属性&#39;)
+
+  console.log(div.getAttribute(&#39;id&#39;))
+
+  console.log(div.getAttribute(&#39;index&#39;))
+
+  // 设置属性值
+
+  // (1) element.属性 = &#39;值&#39;;
+
+  div.id = &#39;text&#39;
+
+  div.className = &#39;navs&#39;
+
+  // (2) element.setAttribute(&#39;属性&#39;,&#39;值&#39;);    主要针对自定义属性
+
+  div.setAttribute(&#39;index&#39;, 2)
+
+  // 移除属性  removeAttribute(属性)\
+
+  div.removeAttribute(&#39;index&#39;)
+&lt;/script&gt;
+</code></pre>
+<p>7.事件操作</p>
+<p>事件操作的基本格式为：事件源.事件类型 &#x3D; 事件处理程序</p>
+<p>事件操作有鼠标事件和键盘事件</p>
+<p>(1)鼠标事件</p>
+<pre><code>             onclick        // 鼠标点击触发
+             onmouseover    //鼠标经过触发
+             onmouseout     //鼠标离开触发
+             onmousemove    //鼠标移动触发
+             onmouseup      //鼠标弹起触发
+             onmousedown    //鼠标按下触发
+             onfocus        //获得鼠标焦点触发
+             onblur         //失去鼠标焦点触发
+</code></pre>
+<p>（2）键盘事件</p>
+<pre><code class="html">&lt;script&gt;
+  // 常用键盘事件
+
+  // 1. keyup 按键弹起时触发
+
+  document.addEventListener(&#39;keyup&#39;, function () &#123;
+    console.log(&#39;我弹起了&#39;)
+  &#125;)
+
+  // 2. keydown 按键按下时触发   能识别功能键 ctrl shift 箭头键等
+
+  document.addEventListener(&#39;keydown&#39;, function () &#123;
+    console.log(&#39;我按下了down&#39;)
+  &#125;) // 先输出的为 keydown
+  // 3. keypress 按键按下时触发    不能识别功能键 ctrl shift 箭头键等
+
+  document.addEventListener(&#39;keypress&#39;, function () &#123;
+    console.log(&#39;我按下了press&#39;)
+  &#125;)
+
+  // 4.三个事件的执行顺序  keydown -&gt; keypress -&gt; keyup
+&lt;/script&gt;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 MaoJiu的博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Mao Jiu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+                </div>
+            </transition>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/blog/js/main.js"></script>
+        <script>
+            console.info("Welcome to Argvchs' blog!");
+            if (!window.hasOwnProperty("ontouchstart")) {
+                let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+                document.body.append(document.createRange().createContextualFragment(html));
+            }
+        </script>
+        
+        
+<script
+    src="https://giscus.app/client.js"
+    data-repo="maojiu-bb/blog"
+    data-repo-id="R_kgDOJ2GUoQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJ2GUoc4CXlfy"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+        
+    </body>
+</html>
