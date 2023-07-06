@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>uni-app封装request请求 | MaoJiu的博客</title>
+        <meta name="author" content="Mao Jiu" />
+        <meta name="description" content="在午夜时分相遇，寻找真实的自己" />
+        <meta name="keywords" content="blog MaoJiu" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/blog/images/favicon.png" />
+        <script src="https://static-argvchs.netlify.app/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://static-argvchs.netlify.app" crossorigin />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/libs/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/blog/js/lib/highlight.js"></script>
+
+
+
+<script src="/blog/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://static-argvchs.netlify.app/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/blog/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/blog/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <div id="desktop-menu">
+        <a class="title" href="/blog/">
+            <span>MAOJIU的博客</span>
+        </a>
+        
+        <a href="/blog/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blog/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blog/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blog/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blog/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;MAOJIU的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blog/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </div>
+</nav>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <transition name="into">
+                <div id="main" v-show="!loading">
+                    <div class="article">
+    <div>
+        <h1>uni-app封装request请求</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/3/11
+        </span>
+        
+        <span class="category">
+            <a href="/blog/categories/uni-app/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                uni-app
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/blog/tags/uni-app/" style="color: #ffa2c4">uni-app</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>在 uni-app 中发送网络请求，uni-app 为我们提供了 uni.request(OBJECT)来发起网络请求。在一个项目中，如果只有少量的请求，用这个来发起网络请求还是可以的。但是，在实际开发中往往会有很多的请求，一个项目的接口随着需求的增加而增加。如果在每次发送请求的时候都单独按照 uni.request(OBJECT)来进行设置的话，会使我们的代码变得繁琐冗余不利于维护。对此，我们可以基于 uni.request(OBJECT)来封装一个我们自己的网络请求。</p>
+<span id="more"></span>
+
+<h4 id="封装-request-请求"><a href="#封装-request-请求" class="headerlink" title="封装 request 请求"></a>封装 request 请求</h4><h5 id="1-定义域名"><a href="#1-定义域名" class="headerlink" title="1.定义域名"></a>1.定义域名</h5><p>可以定义一个域名来避免在代码中重复书写</p>
+<pre><code class="js">const BASE_URL = &#39;http://localhost:3006&#39;
+</code></pre>
+<h5 id="2-设置请求头"><a href="#2-设置请求头" class="headerlink" title="2.设置请求头"></a>2.设置请求头</h5><p>对请求头中的信息进行整理</p>
+<pre><code class="js">const header = &#123;
+  &#39;content-type&#39;: &#39;application/json&#39;
+&#125;
+// 判断在缓存中是否含有token
+const token = uni.getStorageSync(&#39;token&#39;)
+if (token) &#123;
+  header = &#123;
+    &#39;content-type&#39;: &#39;application/json&#39;,
+    Authorization: &#39;Bearer &#39; + token
+  &#125;
+&#125;
+</code></pre>
+<h5 id="3-利用-Promise-将-uni-request-包裹"><a href="#3-利用-Promise-将-uni-request-包裹" class="headerlink" title="3.利用 Promise 将 uni.request 包裹"></a>3.利用 Promise 将 uni.request 包裹</h5><p>利用 Promise 将 uni.request 进行包裹来发送异步请求</p>
+<pre><code class="js">new Promise((resolve, reject) =&gt; &#123;
+  uni.request(&#123;
+    url: BASE_URL + option.url,
+    method: option.method || &#39;GET&#39;,
+    header: header,
+    data: option.data,
+    success(res) &#123;
+      resolve(res)
+    &#125;,
+    fail(err) &#123;
+      reject(err)
+    &#125;
+  &#125;)
+&#125;)
+</code></pre>
+<h5 id="4-完整示例"><a href="#4-完整示例" class="headerlink" title="4.完整示例"></a>4.完整示例</h5><pre><code class="js">const BASE_URL = &#39;http://localhost:3006&#39;
+const header = &#123;
+  &#39;content-type&#39;: &#39;application/json&#39;
+&#125;
+const token = uni.getStorageSync(&#39;token&#39;)
+if (token) &#123;
+  header = &#123;
+    &#39;content-type&#39;: &#39;application/json&#39;,
+    Authorization: &#39;Bearer &#39; + token
+  &#125;
+&#125;
+export const request = (option) =&gt; &#123;
+  return new Promise((resolve, reject) =&gt; &#123;
+    uni.request(&#123;
+      url: BASE_URL + option.url,
+      method: option.method || &#39;GET&#39;,
+      header: header,
+      data: option.data,
+      success(res) &#123;
+        resolve(res)
+      &#125;,
+      fail(err) &#123;
+        reject(err)
+      &#125;
+    &#125;)
+  &#125;)
+&#125;
+</code></pre>
+<h4 id="在组件中使用-request"><a href="#在组件中使用-request" class="headerlink" title="在组件中使用 request"></a>在组件中使用 request</h4><h5 id="1-引入-request-js"><a href="#1-引入-request-js" class="headerlink" title="1.引入 request.js"></a>1.引入 request.js</h5><pre><code class="js">import &#123; request &#125; from &#39;@/utils/request.js&#39;
+</code></pre>
+<p>我所封装的 request.js 是在 utils 目录下的</p>
+<h5 id="2-使用-request-发请求"><a href="#2-使用-request-发请求" class="headerlink" title="2.使用 request 发请求"></a>2.使用 request 发请求</h5><pre><code class="js">request(&#123;
+  url: &#39;/api/getData&#39;,
+  method: &#39;GET&#39;
+&#125;).then((res) =&gt; &#123;
+  console.log(res)
+&#125;)
+</code></pre>
+<p>我们也可以使用 async,await 语法糖来获取数据，如下示例：</p>
+<pre><code class="js">import &#123; ref &#125; from &#39;vue&#39;
+let num = ref(&#39;&#39;)
+const getData = async () =&gt; &#123;
+  const res = await request(&#123;
+    url: &#39;/api/getData&#39;,
+    method: &#39;GET&#39;
+  &#125;)
+  if (res.code === 200) &#123;
+    num = res.num
+  &#125;
+&#125;
+</code></pre>
+<p>这里封装的 request 请求，不含有拦截器，只是基于 uni-app 进行了简单的封装。</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 MaoJiu的博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Mao Jiu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+                </div>
+            </transition>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/blog/js/main.js"></script>
+        <script>
+            console.info("Welcome to Maojiu's blog!");
+            if (!window.hasOwnProperty("ontouchstart")) {
+                let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+                document.body.append(document.createRange().createContextualFragment(html));
+            }
+        </script>
+        
+        
+<script
+    src="https://giscus.app/client.js"
+    data-repo="maojiu-bb/blog"
+    data-repo-id="R_kgDOJ2GUoQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJ2GUoc4CXlfy"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+        
+    </body>
+</html>

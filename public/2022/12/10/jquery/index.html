@@ -1,0 +1,543 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>jQuery的使用 | MaoJiu的博客</title>
+        <meta name="author" content="Mao Jiu" />
+        <meta name="description" content="在午夜时分相遇，寻找真实的自己" />
+        <meta name="keywords" content="blog MaoJiu" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/blog/images/favicon.png" />
+        <script src="https://static-argvchs.netlify.app/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://static-argvchs.netlify.app" crossorigin />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/libs/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/blog/js/lib/highlight.js"></script>
+
+
+
+<script src="/blog/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://static-argvchs.netlify.app/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/blog/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/blog/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <div id="desktop-menu">
+        <a class="title" href="/blog/">
+            <span>MAOJIU的博客</span>
+        </a>
+        
+        <a href="/blog/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blog/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blog/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blog/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blog/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;MAOJIU的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blog/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </div>
+</nav>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <transition name="into">
+                <div id="main" v-show="!loading">
+                    <div class="article">
+    <div>
+        <h1>jQuery的使用</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2022/12/10
+        </span>
+        
+        <span class="category">
+            <a href="/blog/categories/jQuery/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                jQuery
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/blog/tags/jQuery/" style="color: #03a9f4">jQuery</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>jQuery 是一个快速、简洁且功能丰富的 JavaScript 库，里面封装了 JavaScript 常用的功能代码，优化了文档操作、事件处理和动画设计等。</p>
+<span id="more"></span>
+
+<p><strong>1.jQuery 的入口函数</strong></p>
+<p>使用 jQuery 语句书写 js 时，要先引入 jQuery 的 js 代码，然后在自己书写的 js 代码中，要先写一个入口函数，等页面 DOM 加载完毕后再去执行 js 代码，有以下两种方式：</p>
+<pre><code>        $(function() &#123;  &#125;)
+        $(document).ready(function() &#123;  &#125;)
+</code></pre>
+<p>用 jQuery 书写 js 时要用 $ 其代表了 jQuery</p>
+<p><strong>2.jQuery 的筛选选择器</strong></p>
+<p>jQuery 的筛选选择器有以下几种： (1) :first 选择第一个 (2) :last 选择最后一个 (3) :odd 选择及数个 (4) :even 选择偶数个 (5) eq(index) 选择对应索引号的,索引号一样也是从 0 开始</p>
+<pre><code>        // :first  第一个
+        // :last  最后一个
+        // :odd  奇数个
+        // :even 偶数个
+        // :eq(index) 里面索引从 0 开始
+
+        $(function() &#123;
+            $(&#39;ul li:first&#39;).css(&#39;backgroundColor&#39; , &#39;pink&#39;);
+            $(&#39;ul li:last&#39;).css(&#39;backgroundColor&#39; , &#39;pink&#39;);
+            $(&#39;ul li:eq(2)&#39;).css(&#39;backgroundColor&#39; , &#39;green&#39;);
+            $(&#39;ol li:odd&#39;).css(&#39;color&#39; , &#39;pink&#39;);
+            $(&#39;ol li:even&#39;).css(&#39;color&#39; , &#39;skyblue&#39;);
+        &#125;);
+</code></pre>
+<p><strong>3.jQuery 的筛选方法</strong></p>
+<p>主要是对当前元素的父、子、兄或者第 n 个进行筛选。有（1）.parent() 得到最近一级的父元素；（2）.children() 得到最近一级的子元素，相当于子选择器；.find() 选择匹配的子元素，相当于后代选择器；（3）sibings() 得到当前元素的兄弟系节点，不包括自己；（4）.eq(index) 选择第 n 个</p>
+<pre><code>        $(function() &#123;
+            // 父
+            console.log($(&quot;.son&quot;).parent());  // father 得到的为最近一级的父元素
+            // 子
+            console.log($(&quot;.son&quot;).children(&quot;p&quot;));  // 相当于$(&quot;ul&gt;li&quot;)  最近一级
+            console.log($(&quot;.son&quot;).find(&quot;p&quot;));   // 相当于$(&quot;ul li&quot;) 后代选择器
+            // 兄
+            console.log($(&quot;.son p&quot;).siblings(&quot;div&quot;));  // 查找兄弟节点 不包括自己
+        &#125;);
+</code></pre>
+<p>还可通过方法筛选判断是否有某个类名，如果有则返回 true ，如果没有则返回 false</p>
+<pre><code>        $(&quot;ul li:first&quot;).hasClass(&quot;bor&quot;);
+        console.log($(&quot;ul li:eq(1)&quot;).hasClass(&quot;bor&quot;));
+</code></pre>
+<p><strong>4.jQuery 的位置和尺寸方法</strong></p>
+<p>jQuery 的位置方法有（1）offset 获取距离文档的位置或偏移量 （2）position 获取距离带有定位父元素的位置或偏移量。二者的区别在于：offset 能够获取并设置位置或偏移量 ，而 position 只能获取元素的位置或偏移量</p>
+<pre><code>        $(function() &#123;
+            // 1.offset 获取距离文档的位置（偏移）
+            console.log($(&quot;.son&quot;).offset());   // Object &#123; top: 100, left: 668 &#125;
+            console.log($(&quot;.son&quot;).offset().top);  // 100
+            $(&quot;.son&quot;).offset(&#123;
+                left: 200,
+                top: 150
+            &#125;);
+            // 2.position 获取距离带有定位的父元素的位置（偏移） 如果父级没有定位 则以文档为准
+            // 这个方法只能获取不能设置偏移
+            console.log($(&quot;.son&quot;).position());
+        &#125;);
+</code></pre>
+<p>jQuery 的尺寸方法有：(1) width() &#x2F; height(), (2) innerWidth() &#x2F; innerHeight(), (3) outerWidth() &#x2F; outerHeight(), (4) outerWidth(true) &#x2F; outerHeight(true) 具体用法如下：</p>
+<pre><code>        $(function() &#123;
+            // 1.width() / height() 获取设置元素的 width 和 height 大小
+            console.log($(&quot;div&quot;).width());
+            $(&quot;div&quot;).width(300);  // 里面的值不用跟单位
+            // 2.innerWidth() / innerHeight() 获取设置元素 width / height + padding  大小
+            console.log($(&quot;div&quot;).innerWidth());
+            $(&quot;div&quot;).innerWidth(350);
+            // 3.outerWidth() / outerHeight() 获取设置元素 width / height + padding + border 大小
+            console.log($(&quot;div&quot;).outerWidth());
+            $(&quot;div&quot;).outerHeight(300);
+            // 4.outerWidth(true) / outerHeight(true) 获取设置元素 width / height + padding + border + margin 大小
+            console.log($(&quot;div&quot;).outerWidth(true));
+            $(&quot;div&quot;).outerHeight(500);
+         &#125;);
+</code></pre>
+<p><strong>5.jQuery 的样式和属性操作</strong></p>
+<p>jQuery 修改样式：</p>
+<p>（1）修改样式 css 方法</p>
+<p>修改样式用 css(“属性” ， “属性值”) , 若直接打印某个属性，得到的将会是属性值；如果要修改多个样式，则采用大括号{}括在一起，里面的属性名可以不用加引号，属性值是数字时可以不用引号不用单位</p>
+<pre><code>        $(function() &#123;
+            console.log($(&quot;div&quot;).css(&quot;color&quot;));  // 得到的为属性值
+            $(&quot;div&quot;).css(&quot;color&quot; , &quot;skyblue&quot;);
+            // $(&quot;div&quot;).css(&quot;height&quot; , 600);   // 这里的数字可以不用引号 不用单位
+            // 修改多个属性值时
+            $(&quot;div&quot;).css(&#123;
+                width: 400,   // 这里的属性名可以不用引号
+                height: 300,  // 数字可以不接单位
+                backgroundColor: &quot;purple&quot;     // 不是数字 必须加引号
+            &#125;);
+        &#125;);
+</code></pre>
+<p>(2) 修改样式操作类</p>
+<p>修改样式的操作类有（1）添加类 addClass() ；（2）移除类 removeClass() ; (3) 切换类 toggleClass()</p>
+<pre><code>        $(function() &#123;
+            // 1.添加类  addClass()
+            // $(&quot;div&quot;).addClass(&quot;current&quot;);
+            // 2.移除类  removeClass()
+            // $(&quot;div&quot;).removeClass(&quot;current&quot;);
+            // 3.切换类  toggleClass()
+            $(&quot;div&quot;).click(function() &#123;
+                $(this).toggleClass(&quot;current&quot;);
+            &#125;);
+        &#125;);
+</code></pre>
+<p>jQuery 属性操作：</p>
+<p>jQuery 属性操作有：（1）element.prop(“属性名”)   获取元素固有的属性值 ； （2）attr() 获取元素自定义属性值 ； （3）data() 数据缓存 这里面的数据是存放在元素的内存里面，这个方法获取 data-index h5 自定义属性 不用写 data- 返回的是数字型</p>
+<pre><code>        $(function() &#123;
+            // 1.element.prop(&quot;属性名&quot;)  获取元素固有的属性值
+            console.log($(&quot;a&quot;).prop(&quot;href&quot;));
+            // 对立面的值进行修改  prop(&quot;属性名&quot; ， &quot;属性值&quot;)
+            $(&quot;a&quot;).prop(&quot;title&quot; , &quot;猫九的掘金博客&quot;);
+            $(&quot;input&quot;).change(function() &#123;
+                console.log($(this).prop(&quot;checked&quot;));
+            &#125;);
+            // 2.attr() 获取元素自定义属性值
+            console.log($(&quot;div&quot;).attr(&quot;index&quot;));
+            // 对立面的值进行修改  attr(&quot;属性名&quot; , &quot;属性值&quot;)
+            $(&quot;div&quot;).attr(&quot;index&quot; , 4);
+            console.log($(&quot;div&quot;).attr(&quot;data-index&quot;));
+            // 3.data() 数据缓存 这里面的数据是存放在元素的内存里面
+            $(&quot;span&quot;).data(&quot;uname&quot; , &quot;andy&quot;);
+            console.log($(&quot;span&quot;).data(&quot;uname&quot;));
+            // 这个方法获取data-index h5自定义属性 不用写data- 返回的是数字型
+            console.log($(&quot;span&quot;).data(&quot;index&quot;));  // 数字型 6
+        &#125;);
+</code></pre>
+<p><strong>6.jQuery 创建、添加、删除元素</strong></p>
+<p>(1) 创建元素：$(“要添加的元素”)</p>
+<p>(2) 添加元素：append() 添加内部元素，类似于 appendChild()在元素的内部后面添加 ; before() 在外部元素的前面添加 ， after() 在外部元素的后面添加</p>
+<p>(3) 删除元素：remove() 删除匹配元素 ； empty() 删除匹配元素的子节点 ； $(“ “).html(“”) 删除匹配元素的子节点</p>
+<pre><code>        $(function() &#123;
+            // 1.创建元素
+            var li = $(&quot;&lt;li&gt;后生li&lt;/li&gt;&quot;);
+            // 2.添加元素
+                // (1)添加内部元素
+            $(&quot;ul&quot;).append(li);   // 类似于appendChild 在元素内部后面添加
+                // (2)添加外部元素
+            var div = $(&quot;&lt;div&gt;后生div&lt;/div&gt;&quot;);
+            // $(&quot;div&quot;).after(div);  // 在后面添加
+            $(&quot;div&quot;).before(div);  // 在前面添加
+            // 3.删除元素
+            // $(&quot;ul&quot;).remove();   // 可以删除匹配的元素 自杀
+            // $(&quot;ul&quot;).empty();    // 可以删除匹配的元素的子节点 孩子
+            $(&quot;ul&quot;).html(&quot;&quot;);    // 可以删除匹配的元素的子节点 孩子  (&quot;&quot;)括号里面要加引号
+        &#125;);
+</code></pre>
+<p><strong>7.jQuery 的显示与隐藏、淡入与淡出</strong></p>
+<p>显示与隐藏：</p>
+<p>显示用 show() , 隐藏用 hide()</p>
+<pre><code>        $(function() &#123;
+            $(&quot;button&quot;).eq(1).click(function() &#123;
+                $(&quot;div&quot;).hide(1000 , function() &#123;
+                    alert(&quot;隐藏&quot;);
+                &#125;);
+            &#125;);
+            $(&quot;button&quot;).eq(0).click(function() &#123;
+                $(&quot;div&quot;).show(1000 , function() &#123;
+                    alert(&quot;显示&quot;);
+                &#125;);
+            &#125;);
+            $(&quot;button&quot;).eq(2).click(function() &#123;
+                $(&quot;div&quot;).toggle(1000 , function() &#123;
+                &#125;);
+            &#125;);
+        &#125;);
+</code></pre>
+<p>淡入与淡出：</p>
+<p>fadeIn() 淡出 ； fadeOut() 淡入 ; fadeToggle() 切换淡入淡出效果 ； fadeTo() 透明度，括号里面必须写上透明度的值</p>
+<pre><code>        $(function() &#123;
+            // 淡出  fadeIn()
+            $(&quot;button&quot;).eq(0).click(function() &#123;
+                $(&quot;div&quot;).fadeIn(1000);
+            &#125;);
+            // 淡入  fadeOut()
+            $(&quot;button&quot;).eq(1).click(function() &#123;
+                $(&quot;div&quot;).fadeOut(1000);
+            &#125;);
+            // 切换  fadeToggle
+            $(&quot;button&quot;).eq(2).click(function() &#123;
+                $(&quot;div&quot;).fadeToggle(1000);
+            &#125;);
+            // 透明度  fadeTo()  里面必须写透明度
+            $(&quot;button&quot;).eq(3).click(function() &#123;
+                $(&quot;div&quot;).fadeTo(1000 , 0.5);
+            &#125;);
+        &#125;);
+</code></pre>
+<p><strong>8.jQuery 滑动效果、事件切换及动画方法</strong></p>
+<p>滑动效果有：slidedup() 上滑 ； slidedown() 下滑 ； slideToggle() 切换上下滑动效果</p>
+<p>事件切换：语法格式为：$(“ “).hover(function() {} , function() {}) ，当鼠标经过时，自动切换事件</p>
+<p>动画方法：因为 jQuery 已经包含了 animation 自定义动画的方法，所以直接调用即可</p>
+<p><strong>9.jQuery 遍历对象方法</strong></p>
+<p>遍历对象有两种方法： (1) each() ; (2) $.each() 主要用于遍历数据，进行数据处理</p>
+<pre><code>        $(function() &#123;
+            // 1. each() 方法遍历元素
+            var arr = [&quot;skyblue&quot; , &quot;yellowgreen&quot; , &quot;pink&quot;];
+            var sum = 0;
+            $(&quot;div&quot;).each(function(index , domEle) &#123;
+                // 回调函数第一个参数一定是索引号 可以自定义索引号名称
+                console.log(index);
+                // 回调函数第二个参数一定是dom元素对象
+                console.log(domEle);
+                $(domEle).css(&quot;backgroundColor&quot; , arr[index]);
+                sum += parseInt($(domEle).text());   // 要进行类型转换
+            &#125;);
+            console.log(sum);   // 6
+            // 2. $.each() 方法遍历元素 主要用于遍历数据 数据处理
+            $.each($(&quot;div&quot;) , function(index , domEle) &#123;
+                console.log(index);
+                console.log(domEle);
+            &#125;);
+            $.each(arr , function(index , domEle) &#123;
+                console.log(index);
+                console.log(domEle);
+            &#125;);
+            $.each(&#123;
+                name: &quot;andy&quot;,
+                age: 19
+            &#125; , function(i , ele) &#123;
+                console.log(i);
+                console.log(ele);
+            &#125;)
+        &#125;);
+</code></pre>
+<p>注意：回调函数第一个参数一定是索引号 可以自定义索引号名称，回调函数第二个参数一定是 dom 元素对象</p>
+<p><strong>10.jQuery 的隐式迭代和链式编程</strong></p>
+<p>隐式迭代：当我们调用 jQuery 时，jQuery 方法会遍历内部的 DOM 数组，这个过程称为隐式迭代</p>
+<pre><code>    &lt;div&gt;惊喜&lt;/div&gt;
+    &lt;div&gt;惊喜&lt;/div&gt;
+    &lt;div&gt;惊喜&lt;/div&gt;
+    &lt;div&gt;惊喜&lt;/div&gt;
+        $(function() &#123;
+            $(&#39;div&#39;).css(&#39;backgroundColor&#39; , &#39;pink&#39;);
+        &#125;);
+</code></pre>
+<p>这里的所有 div 的背景颜色都将变成粉红色，这就是隐式迭代的作用</p>
+<p>链式编程：链式编程即将多个方法写在一行显示，从而减少代码量，但要注意先后顺序的问题</p>
+<pre><code>            // 链式编程  
+
+                $(this).css(&quot;backgroundColor&quot; , &quot;pink&quot;).siblings().css(&quot;backgroundColor&quot; , &quot;&quot;);
+
+                $(this).siblings().parent().css(&quot;color&quot; , &quot;blue&quot;);
+</code></pre>
+<p><strong>11.jQuery 的对象拷贝</strong></p>
+<p>对象拷贝分深拷贝和浅拷贝两种</p>
+<p>（1）深拷贝：把原来对象里面的数据完全复制一份给目标对象 $.extend(true , targetObj , obj)</p>
+<p>（2）浅拷贝：把原来对象里面的复杂数据类型的地址拷贝给目标对象 $.extend(targetObj , obj)</p>
+<pre><code>        $(function() &#123;
+            var targetObj = &#123;
+                age: 16,
+                sex: &quot;男&quot;
+            &#125;;
+            var obj = &#123;
+                name: &quot;andy&quot;,
+                age: 18,
+                msg:&#123;
+                    tel: 666
+                &#125;
+            &#125;
+            // 语法格式 $.extend(target , obj);
+            $.extend(targetObj , obj);
+            // 1.浅拷贝把原来对象里面的复杂数据类型地址拷贝给目标对象
+                console.log(targetObj);  // age: 18 后面的值将前面的覆盖掉了
+                console.log(obj);
+            // 2.深拷贝把原来对象里面的数据完全复制一份给目标对象
+            $.extend(true , targetObj , obj);  // 里面第一个属性值改为 true 为深拷贝
+            targetObj.age = 20;
+                console.log(targetObj);
+                console.log(obj);
+        &#125;);
+</code></pre>
+<p>如果里面有不冲突的属性 会合并在一起;如果里面有冲突的属性   后面的值会将前面的值覆盖</p>
+<p><strong>12.jQuery 自动触发事件</strong></p>
+<p>自动触发事件，不需要点击等任何操作便可执行. 有 trigger(“事件”) 和 triggerHandler(“事件”)，后者不会触发元素的默认行为</p>
+<pre><code>            // 2.元素.trigger(&quot;事件&quot;)
+            $(&quot;div&quot;).trigger(&quot;click&quot;);
+            // 3.元素.triggerHandler(&quot;事件&quot;)  不会触发元素的默认行为
+            $(&quot;input&quot;).on(&quot;focus&quot; , function() &#123;
+                $(this).val(&quot;你好吗&quot;);
+            &#125;)
+            $(&quot;input&quot;).triggerHandler(&quot;focus&quot;);
+</code></pre>
+<p>jQuery 的一些基本内容就到这里了</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 MaoJiu的博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Mao Jiu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+                </div>
+            </transition>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/blog/js/main.js"></script>
+        <script>
+            console.info("Welcome to Maojiu's blog!");
+            if (!window.hasOwnProperty("ontouchstart")) {
+                let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+                document.body.append(document.createRange().createContextualFragment(html));
+            }
+        </script>
+        
+        
+<script
+    src="https://giscus.app/client.js"
+    data-repo="maojiu-bb/blog"
+    data-repo-id="R_kgDOJ2GUoQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJ2GUoc4CXlfy"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+        
+    </body>
+</html>

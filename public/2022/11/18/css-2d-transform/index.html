@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>CSS中的2D转换 | MaoJiu的博客</title>
+        <meta name="author" content="Mao Jiu" />
+        <meta name="description" content="在午夜时分相遇，寻找真实的自己" />
+        <meta name="keywords" content="blog MaoJiu" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/blog/images/favicon.png" />
+        <script src="https://static-argvchs.netlify.app/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://static-argvchs.netlify.app" crossorigin />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/libs/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/blog/js/lib/highlight.js"></script>
+
+
+
+<script src="/blog/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://static-argvchs.netlify.app/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/blog/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/blog/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <div id="desktop-menu">
+        <a class="title" href="/blog/">
+            <span>MAOJIU的博客</span>
+        </a>
+        
+        <a href="/blog/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blog/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blog/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blog/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blog/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;MAOJIU的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blog/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </div>
+</nav>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <transition name="into">
+                <div id="main" v-show="!loading">
+                    <div class="article">
+    <div>
+        <h1>CSS中的2D转换</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2022/11/18
+        </span>
+        
+        <span class="category">
+            <a href="/blog/categories/CSS/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                CSS
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/blog/tags/CSS/" style="color: #00bcd4">CSS</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>在一个页面中，一个图片的移动、缩放和旋转等往往能让用户有一个更好的体验。在 CSS 中，我们可以通过 2D 转换来实现这些效果。</p>
+<span id="more"></span>
+
+<p><strong>1.2D 转换-移动 translate</strong></p>
+<p>2D 转换中的移动可改变元素在页面中的位置。2D 转换有以下三种语法格式：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/17b70176e1bc4c59b854a5e9a858815f~tplv-k3u1fbpfcp-watermark.image" alt="图片.png"></p>
+<p>我们可以同时对 X、Y 进行移动的设置，也可以单独设置。</p>
+<p>比如：一个宽和高都是 200 像素的 div 盒子，要向右移动 100 像素，只需要加一个 translateX（100px）或者 translate（100px,0）便可以实现。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/46d51b9c090d405a8f75c8dfce59c96d~tplv-k3u1fbpfcp-watermark.image" alt="图片.png"></p>
+<p>值得<strong>注意</strong>的是：1.移动距离 X 和 Y 是以我们页面左上角为坐标原点的。 &amp;nbsp;2.translate 的最大优点就是不会影响其他元素的位置。 &amp;nbsp;3.当 translate 里面的单位用的是百分比时，移动的距离是以自身元素大小的百分比来移动。 &amp;nbsp;4.translate 移动效果对行内元素使用无效。</p>
+<p><strong>2.2D 转换-旋转 rotate</strong></p>
+<p>2D 旋转是让元素在 2 维平面进行顺时针或逆时针旋转，语法格式如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/478da5a8c4a744059d464948f37ce28d~tplv-k3u1fbpfcp-watermark.image" alt="图片.png"></p>
+<p>角度为正时，顺时针旋转；角度为负时，逆时针旋转。默认的旋转中心点为元素中心点。</p>
+<p><strong>3.2D 转换-中心点 transform-origin</strong></p>
+<p>我们可以设置元素转换的中心点来实现不同的效果。</p>
+<p>语法格式为：<br><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6a54cb44522448408145c455fd501c8b~tplv-k3u1fbpfcp-watermark.image" alt="图片.png"></p>
+<p>注意：1.里面参数 X 和 Y 之间要用空格隔开而不是用逗号 2.默认的中心点位元素的中心点 3.可对 X,Y 设置像素或者方位名词（top right bottom left center）。</p>
+<p><strong>4.2D 转换-缩放 scale</strong></p>
+<p>缩放，顾名思义，就是放大和缩小，只要给元素添加了 scale 缩放属性，就能控制扩大或者缩小了。</p>
+<p>语法格式为：<br><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5cb691498f3d4abc944069b5158123bd~tplv-k3u1fbpfcp-watermark.image" alt="图片.png"></p>
+<p>可对里面参数同时设置，也可以单独设置，只设置一个参数时，后一个参数值会与前一个一致：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/23d511e6646949819b9f4e56c97a0578~tplv-k3u1fbpfcp-watermark.image" alt="图片.png"></p>
+<p>里面参数比 1 大时为扩大，比 1 小时为缩小。缩放的最大优势同样也是不影响其他的盒子。</p>
+<p><strong>这么多的 2D 转换属性，当然也有像 background 一样的简写方法：</strong></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8e8cb01025bd4706ab4fd30f49b069cf~tplv-k3u1fbpfcp-watermark.image" alt="图片.png"></p>
+<p><strong>重点</strong>当然少不了：1.同时具有多个转换时，转换格式为 transform:translate() roate() scale() …中间用空格隔开。 2.转换属性的顺序会影响转换效果和转换结果，因为代码的执行顺序是从左到右的。 3.当有多个属性时，将位移属性放在最前面。</p>
+<p>好了，今天的 2D 转换就到这里了。</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 MaoJiu的博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Mao Jiu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+                </div>
+            </transition>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/blog/js/main.js"></script>
+        <script>
+            console.info("Welcome to Maojiu's blog!");
+            if (!window.hasOwnProperty("ontouchstart")) {
+                let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+                document.body.append(document.createRange().createContextualFragment(html));
+            }
+        </script>
+        
+        
+<script
+    src="https://giscus.app/client.js"
+    data-repo="maojiu-bb/blog"
+    data-repo-id="R_kgDOJ2GUoQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJ2GUoc4CXlfy"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+        
+    </body>
+</html>

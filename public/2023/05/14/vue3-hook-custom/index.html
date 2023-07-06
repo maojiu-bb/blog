@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>Vue3自定义 Hook | MaoJiu的博客</title>
+        <meta name="author" content="Mao Jiu" />
+        <meta name="description" content="在午夜时分相遇，寻找真实的自己" />
+        <meta name="keywords" content="blog MaoJiu" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/blog/images/favicon.png" />
+        <script src="https://static-argvchs.netlify.app/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://static-argvchs.netlify.app" crossorigin />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/libs/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/blog/js/lib/highlight.js"></script>
+
+
+
+<script src="/blog/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://static-argvchs.netlify.app/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/blog/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/blog/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <div id="desktop-menu">
+        <a class="title" href="/blog/">
+            <span>MAOJIU的博客</span>
+        </a>
+        
+        <a href="/blog/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blog/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blog/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blog/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blog/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;MAOJIU的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blog/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </div>
+</nav>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <transition name="into">
+                <div id="main" v-show="!loading">
+                    <div class="article">
+    <div>
+        <h1>Vue3自定义 Hook</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/5/14
+        </span>
+        
+        <span class="category">
+            <a href="/blog/categories/Vue/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Vue
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/blog/tags/Vue/" style="color: #00a596">Vue</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h4 id="什么是-hook"><a href="#什么是-hook" class="headerlink" title="什么是 hook"></a>什么是 hook</h4><p>自定义 hook 函数其实本质就是一个函数，把 setup 函数中使用的 composition API（组合式 API）进行封装，这就类似<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Vue2&spm=1001.2101.3001.7020">Vue2</a>中的 mixin。</p>
+<p>自定义 hook 的优势：代码复用，使 setup 中的逻辑更清晰易懂。</p>
+<span id="more"></span>
+
+<h4 id="创建一个自定义-hook"><a href="#创建一个自定义-hook" class="headerlink" title="创建一个自定义 hook"></a>创建一个自定义 hook</h4><p>我们创建一个自定义 hook 函数，并演示它的使用方法。</p>
+<p>1.新建一个项目，在 src 文件夹下新建 hooks 文件夹</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0459ff9628a7402daa41bcd815c2f855~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>2.在 hooks 文件夹下创建 useCount.ts 文件，在文件中写入演示代码</p>
+<pre><code class="ts">import &#123; ref &#125; from &#39;vue&#39;
+
+export const useCount = () =&gt; &#123;
+  const a = ref&lt;number&gt;(0)
+
+  const add = () =&gt; a.value++
+
+  const sub = () =&gt; a.value--
+
+  return &#123; a, add, sub &#125;
+&#125;
+</code></pre>
+<p>在开头我们就说过，hook 函数其实本质就是一个函数，所以我们在这里导出 useCount 函数，通常情况下 hook 函数都是以 use 开头的。在这个函数里面，定义了一个变量 a，自增函数 add，自减函数 sub，并将它们返回。</p>
+<h4 id="使用自定义-hook"><a href="#使用自定义-hook" class="headerlink" title="使用自定义 hook"></a>使用自定义 hook</h4><p>在 components 文件夹下新建 Demo.vue 组件，并在 App.vue 中使用，在 Demo 组件中写入如下演示代码</p>
+<pre><code class="html">&lt;template&gt;
+  &lt;div&gt;&#123;&#123; a &#125;&#125;&lt;/div&gt;
+  &lt;button @click=&quot;add&quot;&gt;add&lt;/button&gt;
+  &lt;button @click=&quot;sub&quot;&gt;sub&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script setup lang=&quot;ts&quot;&gt;
+  import &#123; useCount &#125; from &#39;../hooks/useCount&#39;
+  const &#123; a, add, sub &#125; = useCount()
+&lt;/script&gt;
+
+&lt;style&gt;&lt;/style&gt;
+</code></pre>
+<p>首先导入自定义的 useCount hook 函数，因为这个函数返回了 a, add, sub，所以通过结构的方式将他们取出。在 html 结构中，通过 div 将 a 的值展示，并通过两个按钮来控制自增自减。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dec12fb5467d464f90a3ea39b6f96a28~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>当点击 add 时，a 的数值增加</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5674199bd7f64196a6cbd4d59b90a2f1~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>点击 sub 时，a 的数值减小</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/33e1e40a87cb411e80b1038156678f0a~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>这就是一个非常简单的自定义 hook 函数，通过这个加减的例子或许对你理解会有些许帮助。</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 MaoJiu的博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Mao Jiu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+                </div>
+            </transition>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/blog/js/main.js"></script>
+        <script>
+            console.info("Welcome to Maojiu's blog!");
+            if (!window.hasOwnProperty("ontouchstart")) {
+                let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+                document.body.append(document.createRange().createContextualFragment(html));
+            }
+        </script>
+        
+        
+<script
+    src="https://giscus.app/client.js"
+    data-repo="maojiu-bb/blog"
+    data-repo-id="R_kgDOJ2GUoQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJ2GUoc4CXlfy"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+        
+    </body>
+</html>

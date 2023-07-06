@@ -1,0 +1,370 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>Vite打包时的一些优化配置 | MaoJiu的博客</title>
+        <meta name="author" content="Mao Jiu" />
+        <meta name="description" content="在午夜时分相遇，寻找真实的自己" />
+        <meta name="keywords" content="blog MaoJiu" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/blog/images/favicon.png" />
+        <script src="https://static-argvchs.netlify.app/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://static-argvchs.netlify.app" crossorigin />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/libs/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/blog/js/lib/highlight.js"></script>
+
+
+
+<script src="/blog/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://static-argvchs.netlify.app/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/blog/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/blog/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <div id="desktop-menu">
+        <a class="title" href="/blog/">
+            <span>MAOJIU的博客</span>
+        </a>
+        
+        <a href="/blog/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blog/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blog/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blog/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blog/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;MAOJIU的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blog/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </div>
+</nav>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <transition name="into">
+                <div id="main" v-show="!loading">
+                    <div class="article">
+    <div>
+        <h1>Vite打包时的一些优化配置</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/4/8
+        </span>
+        
+        <span class="category">
+            <a href="/blog/categories/Vite/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Vite
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/blog/tags/Vite/" style="color: #00a596">Vite</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>在我们使用 vite 创建项目时, 可以进行一些配置来优化打包</p>
+<span id="more"></span>
+
+<h3 id="1-分包策略"><a href="#1-分包策略" class="headerlink" title="1.分包策略"></a>1.分包策略</h3><p>在说分包策略前，我们要明白浏览器的缓存策略：</p>
+<ul>
+<li>当访问一个网站时向服务器请求获取静态资源并将静态资源进行缓存，如 css、js 等。</li>
+<li>当下次再访问时，如果之前缓存的 “静态资源”的名字没有发生改变，则不会重新请求，直接从缓存中获取。</li>
+</ul>
+<p>Vite 在打包时，只要代码内容变了，所生成的新文件的 hash 字符串完全不同。但是，我们改的一般都是源代码里面的内容，而依赖中的内容是不会变的，但是在每次打包时都会重新将这些依赖打包，所以可以将这些依赖分开打包，从而避免多次重新请求。</p>
+<p>在 vite.config.js 中对 Rollup 进行如下配置：</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &#39;vite&#39;
+
+export default defineConfig(&#123;
+  build: &#123;
+    rollupOptions: &#123;
+      output: &#123;
+        // 对静态资源进行单独打包
+        assetFileNames: &#39;static/[ext]/[name].[hash].[ext]&#39;,
+        // 对项目依赖进行单独打包
+        manualChunks: (id) =&gt; &#123;
+          if (id.includes(&#39;node_modules&#39;)) &#123;
+            return &#39;vandor&#39;
+          &#125;
+        &#125;
+      &#125;
+    &#125;
+  &#125;
+&#125;)
+</code></pre>
+<p>这里对静态资源根据文件的扩展名而分开打包，对项目的所有依赖又进行了单独打包。</p>
+<h3 id="2-gzip-压缩"><a href="#2-gzip-压缩" class="headerlink" title="2.gzip 压缩"></a>2.gzip 压缩</h3><p>gzip 压缩指的是：将打包后的静态资源压缩成 gzip 格式，服务器响应资源文件时发送 gzip 格式文件，然后浏览器拿到 gzip 文件之后再解压使用。但是文件比较小不建议用 gzip 压缩，因为浏览器在解压的时间可能大于请求原来资源的时间。</p>
+<p>配置 gzip 压缩：</p>
+<ul>
+<li>安装 gzip 压缩插件：</li>
+</ul>
+<pre><code class="js">npm i vite-plugin-compression -D
+// or
+yarn add vite-plugin-compression -D
+</code></pre>
+<ul>
+<li>在 vite.config.js 文件中引入插件并进行配置：</li>
+</ul>
+<pre><code class="js">import &#123; defineConfig &#125; from &#39;vite&#39;
+import viteCompression from &#39;vite-plugin-compression&#39;
+
+export default defineConfig(&#123;
+  plugins: [
+    // 配置 gzip 压缩插件
+    viteCompression(&#123;
+      // options
+      verbose: true, // 是否在控制台输出压缩结果
+      disable: false, // 是否禁用
+      threshold: 1024 * 10, // 压缩的门槛大小
+      algorithm: &#39;gzip&#39;, // 压缩的算法
+      ext: &#39;.gz&#39; // 压缩后的文件扩展名
+    &#125;)
+  ]
+&#125;)
+</code></pre>
+<h3 id="3-cdn-加速"><a href="#3-cdn-加速" class="headerlink" title="3.cdn 加速"></a>3.cdn 加速</h3><p>cdn: content delivery network， 即内容分发网络，在我们将项目的所有依赖以及文件在我们进行打包以后放到我们的服务器上面去前，把第三方依赖模块写成 cdn 的形式，从而保证我们自己代码的一个小体积，降低我们自己服务器的传输压力，第三方依赖代码通过 cdn 向最近最优的服务器请求过来。</p>
+<p>配置 cdn ：</p>
+<ul>
+<li>安装 cdn 插件：</li>
+</ul>
+<pre><code class="js">npm install vite-plugin-cdn-import -D
+// or
+yarn add vite-plugin-cdn-import -D
+</code></pre>
+<ul>
+<li>在 vite.config.js 文件中引入插件并进行配置：</li>
+</ul>
+<pre><code class="js">import &#123; defineConfig &#125; from &#39;vite&#39;
+import viteCDNPlugin from &#39;vite-plugin-cdn-import&#39;
+
+export default defineConfig(&#123;
+  plugins: [
+    // cdn加速插件
+    viteCDNPlugin(&#123;
+      modules: [
+        &#123;
+          // 需要 cdn 加速的依赖名称
+          name: &#39;lodash&#39;,
+          // 全局分配给模块的变量，Rollup 需要这个变量名称
+          var: &#39;_&#39;,
+          // 指定 CDN 上的加载路径
+          path: &#39;https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js&#39;
+        &#125;
+      ]
+    &#125;)
+  ]
+&#125;)
+</code></pre>
+<h3 id="4-清除-console-与-debug"><a href="#4-清除-console-与-debug" class="headerlink" title="4.清除 console 与 debug"></a>4.清除 console 与 debug</h3><p>这一步相对简单，在 vite.config.js 进行如下配置：</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &#39;vite&#39;
+
+export default defineConfig(&#123;
+  build: &#123;
+    terserOptions: &#123;
+      compress: &#123;
+        drop_console: true,
+        drop_debugger: true
+      &#125;
+    &#125;
+  &#125;
+&#125;)
+</code></pre>
+<p>这里就是一些比较基本的优化配置，并没有很全面。</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 MaoJiu的博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Mao Jiu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+                </div>
+            </transition>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/blog/js/main.js"></script>
+        <script>
+            console.info("Welcome to Maojiu's blog!");
+            if (!window.hasOwnProperty("ontouchstart")) {
+                let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+                document.body.append(document.createRange().createContextualFragment(html));
+            }
+        </script>
+        
+        
+<script
+    src="https://giscus.app/client.js"
+    data-repo="maojiu-bb/blog"
+    data-repo-id="R_kgDOJ2GUoQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJ2GUoc4CXlfy"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+        
+    </body>
+</html>

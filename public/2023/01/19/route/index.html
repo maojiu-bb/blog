@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>导航与导航守卫 | MaoJiu的博客</title>
+        <meta name="author" content="Mao Jiu" />
+        <meta name="description" content="在午夜时分相遇，寻找真实的自己" />
+        <meta name="keywords" content="blog MaoJiu" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/blog/images/favicon.png" />
+        <script src="https://static-argvchs.netlify.app/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://static-argvchs.netlify.app" crossorigin />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/libs/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/blog/js/lib/highlight.js"></script>
+
+
+
+<script src="/blog/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://static-argvchs.netlify.app/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/blog/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/blog/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <div id="desktop-menu">
+        <a class="title" href="/blog/">
+            <span>MAOJIU的博客</span>
+        </a>
+        
+        <a href="/blog/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blog/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blog/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blog/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blog/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;MAOJIU的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blog/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </div>
+</nav>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <transition name="into">
+                <div id="main" v-show="!loading">
+                    <div class="article">
+    <div>
+        <h1>导航与导航守卫</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/1/19
+        </span>
+        
+        <span class="category">
+            <a href="/blog/categories/Vue/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Vue
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/blog/tags/Vue-router/" style="color: #ff7d73">Vue-router</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>前端路由导航有两种不同的方式，一种是声明式导航，一种是编程式导航。</p>
+<span id="more"></span>
+
+<h3 id="声明式导航"><a href="#声明式导航" class="headerlink" title="声明式导航"></a>声明式导航</h3><p>声明式导航就是使用<code>&lt;a href=&quot;&quot;&gt;&lt;/a&gt;</code>或者<code>&lt;router-link&gt;&lt;/router-link&gt;</code>等声明的方式来进行导航跳转</p>
+<pre><code class="html">&lt;a href=&quot;www.baidu.com&quot;&gt;跳转到百度&lt;/a&gt;
+&lt;router-link to=&quot;/home&quot;&gt;首页&lt;/router-link&gt;
+</code></pre>
+<h3 id="编程式导航"><a href="#编程式导航" class="headerlink" title="编程式导航"></a>编程式导航</h3><p>编程式导航就是不使用<code>&lt;a href=&quot;&quot;&gt;&lt;/a&gt;</code>或<code>&lt;router-link&gt;&lt;/router-link&gt;</code>等声明方式来导航</p>
+<h5 id="location-href"><a href="#location-href" class="headerlink" title="location.href"></a>location.href</h5><p>在原生的 js 中，通过 location.href &#x3D; ‘跳转的地址’，来实现编程式导航跳转</p>
+<pre><code>loaction.href = &#39;www.baidu.com&#39;
+</code></pre>
+<h5 id="this-router"><a href="#this-router" class="headerlink" title="this.$router"></a>this.$router</h5><p>在 vue 项目中，this 指向 vue 的实例对象$router 上有许多与编程式导航跳转的方法：</p>
+<p>1.<code>this.$router.push(&#39;hash地址&#39;)</code>，通过这个方法进行跳转会留下一条历史记录</p>
+<p>2.<code>this.$router.replace(&#39;hash地址&#39;)</code>，这个方法跳转会替换掉当前的历史记录前往新的地址</p>
+<p>3.<code>this.$router.go(n)</code>，n 是一个数值，当数值为正时，表示要前进的历史记录层数；当数值为负时，表示要后退的历史记录层数</p>
+<p>4.<code>this.$router.back(n)</code>，n 也是数值，后退到指定的历史记录层数页面</p>
+<p>5.<code>this.$router.forward(n)</code>，n 也是数值，前进到指定的历史记录层数页面</p>
+<pre><code class="js">    methods: &#123;
+        handlerPush() &#123;
+            this.$router.push(&#39;/home&#39;)
+        &#125;,
+        handlerReplace() &#123;
+            this.$router.replace(&#39;/login&#39;)
+        &#125;,
+        handlerGo() &#123;
+            this.$router.go(-1)
+        &#125;,
+        handlerBack() &#123;
+            this.$router.back(1)
+        &#125;,
+        handlerForward() &#123;
+            this.$router.forward(1)
+        &#125;
+    &#125;
+</code></pre>
+<h2 id="导航守卫"><a href="#导航守卫" class="headerlink" title="导航守卫"></a>导航守卫</h2><p>导航守卫能够控制路由的访问权限，比如在未登录的状态下无法访问后台相关的信息，强制跳转到登录页在登录后才能访问</p>
+<h5 id="全局前置导航守卫"><a href="#全局前置导航守卫" class="headerlink" title="全局前置导航守卫"></a>全局前置导航守卫</h5><p>每次在路由导航时都会触发全局前置导航守卫，调用路由实例对象的<code>beforeEach()</code>方法，声明全局前置守卫。</p>
+<p><code>router.beforeEach(fn)</code>，其中，fn 为一个回调函数，里面接收三个参数，分别为<code>(to,from,next)</code>，to 是将要访问的路由信息对象，from 是将要离开的路由信息对象，next 是一个函数，调用<code>next()</code>方法表示放行，允许本次访问。</p>
+<p>next 函数的三种调用方式：</p>
+<p>1.<code>next()</code>，表示拥有访问权限直接放行</p>
+<p>2.<code>next(&#39;/login&#39;)</code>，表示没有访问权限，强行跳转到一个登录页面上</p>
+<p>3.<code>next(false)</code>，表示没有访问权限，也不进行跳转</p>
+<p>实例</p>
+<pre><code class="js">// 全局前置导航守卫
+router.beforeEach((to, from, next) =&gt; &#123;
+  if (pathArray.includes(to.path)) &#123;
+    // pathArray 为一个存放要访问权限的hash地址的数组
+    const token = localStorage.getItem(&#39;token&#39;)
+    // 判断是否有 token若无直接跳转到登录页面
+    if (token) &#123;
+      // 有 token 放行
+      next()
+    &#125; else &#123;
+      // 无 token 强制跳转到登录页
+      next(&#39;/login&#39;)
+    &#125;
+  &#125; else &#123;
+    // 不需要 token 直接放行
+    next()
+  &#125;
+&#125;)
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 MaoJiu的博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Mao Jiu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+                </div>
+            </transition>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/blog/js/main.js"></script>
+        <script>
+            console.info("Welcome to Maojiu's blog!");
+            if (!window.hasOwnProperty("ontouchstart")) {
+                let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+                document.body.append(document.createRange().createContextualFragment(html));
+            }
+        </script>
+        
+        
+<script
+    src="https://giscus.app/client.js"
+    data-repo="maojiu-bb/blog"
+    data-repo-id="R_kgDOJ2GUoQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJ2GUoc4CXlfy"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+        
+    </body>
+</html>

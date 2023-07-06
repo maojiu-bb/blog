@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>React Hook的使用 | MaoJiu的博客</title>
+        <meta name="author" content="Mao Jiu" />
+        <meta name="description" content="在午夜时分相遇，寻找真实的自己" />
+        <meta name="keywords" content="blog MaoJiu" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/blog/images/favicon.png" />
+        <script src="https://static-argvchs.netlify.app/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+<link rel="preconnect" href="https://static-argvchs.netlify.app" crossorigin />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/libs/font-awesome/6.3.0/css/all.min.css" />
+<link rel="stylesheet" href="https://static-argvchs.netlify.app/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://static-argvchs.netlify.app/libs/highlight.js/11.7.0/styles/github.min.css"
+/>
+<script src="/blog/js/lib/highlight.js"></script>
+
+
+
+<script src="/blog/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="https://static-argvchs.netlify.app/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="/blog/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/blog/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <div id="desktop-menu">
+        <a class="title" href="/blog/">
+            <span>MAOJIU的博客</span>
+        </a>
+        
+        <a href="/blog/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/blog/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/blog/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/blog/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/blog/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </div>
+    <div id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;MAOJIU的博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/blog/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/blog/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </div>
+</nav>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <transition name="into">
+                <div id="main" v-show="!loading">
+                    <div class="article">
+    <div>
+        <h1>React Hook的使用</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/4/16
+        </span>
+        
+        <span class="category">
+            <a href="/blog/categories/React/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                React
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/blog/tags/React/" style="color: #03a9f4">React</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h3 id="什么是-Hooks"><a href="#什么是-Hooks" class="headerlink" title="什么是 Hooks"></a>什么是 Hooks</h3><p>我们知道，React 的组件创建方式有两种：（1）类式组件（2）函数式组件。</p>
+<ul>
+<li>类式组件能够对状态的管理与切换进行操控，但是在简单的页面中使用类式组件会使代码显得很重，并且状态逻辑难以复用。即便是使用 render props (渲染属性)和高阶组件可以优化，但是这两种方式都会将原来的组件用一个容器包裹起来，形成层级嵌套，代码冗余。此外，在类式组件中，this 的指向问题也值得思考。</li>
+<li>函数式组件没有了类式组件中的状态，没有生命周期，更不存在 this。但是为了对状态进行管理等，就有了 hooks。</li>
+</ul>
+<span id="more"></span>
+
+<p><strong>React Hook</strong>就是将组件写成纯函数的形式，在需要一些特定的功能时，就将特定的 hook 钩子引进来，并且可以在此基础上封装我们自定义的 hook。</p>
+<h3 id="常用的-Hooks"><a href="#常用的-Hooks" class="headerlink" title="常用的 Hooks"></a>常用的 Hooks</h3><h4 id="useState"><a href="#useState" class="headerlink" title="useState()"></a>useState()</h4><p>我们知道，纯函数组件是没有 state 的，但是为了能够操控数据，useState()为函数式组件注入了状态。<br>示例：</p>
+<pre><code class="js">import React, &#123; useState &#125; from &#39;react&#39;
+
+function App() &#123;
+  const [count, setCount] = useState(0)
+  const add = () =&gt; &#123;
+    setCount(count + 1)
+  &#125;
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;div&gt;Count: &#123;count&#125;&lt;/div&gt;
+      &lt;button onClick=&#123;add&#125;&gt;点击+1&lt;/button&gt;
+    &lt;/div&gt;
+  )
+&#125;
+
+export default App
+</code></pre>
+<p>useState()创建一个状态，可以赋一个初始值，用一个数组来接收，数组的第一项即为创建的状态变量，数组的第二项是一个函数，用于修改状态变量的值。其中，这个 setCount 函数可以有多种写法，上面的写法是其中一种，还可以在里面写一个函数，函数的返回值就是要进行状态修改的操作。</p>
+<pre><code class="js">setCount((count) =&gt; &#123;
+  return count + 1
+&#125;)
+// 简写
+setCount((count) =&gt; count + 1)
+</code></pre>
+<p>值得注意的是，当 useState 里面的状态为一个对象时，useState 是不会进行局部更新的，而是将修改后的内容将之前的内容进行覆盖。<br>示例：</p>
+<pre><code class="js">import React, &#123; useState &#125; from &#39;react&#39;
+
+function App() &#123;
+  const [user, setUser] = useState(&#123; name: &#39;tom&#39;, age: 18 &#125;)
+  const changeName = () =&gt; &#123;
+    setUser(&#123;
+      ...user,
+      name: &#39;jack&#39;
+    &#125;)
+  &#125;
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;h1&gt;&#123;user.name&#125;&lt;/h1&gt;
+      &lt;h1&gt;&#123;user.age&#125;&lt;/h1&gt;
+      &lt;button onClick=&#123;changeName&#125;&gt;Click&lt;/button&gt;
+    &lt;/div&gt;
+  )
+&#125;
+
+export default App
+</code></pre>
+<p>从 setUser 的写法我们也不难看出，这里是用修改后的 name 将原来的 name 进行一个覆盖，然后再生成了一个新的 user 对象。</p>
+<h4 id="useRef"><a href="#useRef" class="headerlink" title="useRef()"></a>useRef()</h4><p>useRef 用于获取真的的 DOM 节点，返回一个对象，里面有 current 属性存放着获取到的 DOM 对象。<br>示例：</p>
+<pre><code class="js">import React, &#123; useRef &#125; from &#39;react&#39;
+
+function App() &#123;
+  const myRef = useRef()
+  const handleClick = () =&gt; &#123;
+    console.log(myRef.current)
+  &#125;
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;input ref=&#123;myRef&#125; type=&quot;text&quot; /&gt;
+      &lt;button onClick=&#123;handleClick&#125;&gt;点击打印&lt;/button&gt;
+    &lt;/div&gt;
+  )
+&#125;
+
+export default App
+</code></pre>
+<h4 id="useEffect"><a href="#useEffect" class="headerlink" title="useEffect()"></a>useEffect()</h4><p>useEffect 可以检测数据的更新，更好的处理异步请求等副作用。useEffect 接收两个参数，第一个参数为要进行的异步操作，第二个参数为一个数组，里面为要检测的依赖项，只要数组里面的依赖项发生了变化，useEffect 就会执行。当第二个参数不传时，在每次组件渲染时 useEffect 都会执行，类似于 componentDidUpdate 生命周期钩子。第一个参数返回的函数就相当于 componentWillUnmont.</p>
+<pre><code class="js">// useEffect 可以模拟三个生命周期钩子
+useEffect(() =&gt; &#123;
+  let timer = setInterval(() =&gt; &#123;
+    setCount((count) =&gt; count + 1)
+  &#125;, 1000)
+  return () =&gt; &#123;
+    clearInterval(timer)
+  &#125;
+&#125;, [count])
+// 第一个参数返回的函数就相当于 componentWillUnmont
+// 第二个参数为要检测的数组，谁要检测就传谁
+// 若不传第二个参数，则相当于 componentDidUpdate，传了相当于 componentDidMount
+</code></pre>
+<h4 id="useContext"><a href="#useContext" class="headerlink" title="useContext()"></a>useContext()</h4><p>context 有上下文的意思，所以 useContext() 常用于组件之间的数据状态共享，避免了逐级传递 props 的缺陷。通过 createContext 来创建 context 对象，然后使用 context 对象上的 Procider 来提供数据，在后代组件中通过 useContext 来接收数据。<br>示例：</p>
+<pre><code class="js">import &#123; createContext, useContext &#125; from &#39;react&#39;
+
+const ThemeContext = createContext(null)
+
+export default function MyApp() &#123;
+  return (
+    &lt;ThemeContext.Provider value=&quot;dark&quot;&gt;
+      &lt;Form /&gt;
+    &lt;/ThemeContext.Provider&gt;
+  )
+&#125;
+
+function Form() &#123;
+  return (
+    &lt;Panel title=&quot;Welcome&quot;&gt;
+      &lt;Button&gt;Sign up&lt;/Button&gt;
+      &lt;Button&gt;Log in&lt;/Button&gt;
+    &lt;/Panel&gt;
+  )
+&#125;
+
+function Panel(&#123; title, children &#125;) &#123;
+  const theme = useContext(ThemeContext)
+  const className = &#39;panel-&#39; + theme
+  return (
+    &lt;section className=&#123;className&#125;&gt;
+      &lt;h1&gt;&#123;title&#125;&lt;/h1&gt;
+      &#123;children&#125;
+    &lt;/section&gt;
+  )
+&#125;
+
+function Button(&#123; children &#125;) &#123;
+  const theme = useContext(ThemeContext)
+  const className = &#39;button-&#39; + theme
+  return &lt;button className=&#123;className&#125;&gt;&#123;children&#125;&lt;/button&gt;
+&#125;
+</code></pre>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>React Hooks 能够让我们在函数式组件中灵活的编写状态和功能等，避免了类式组件中存在的一些问题。这里只列举了部分的 hook，还有一些重要的 hooks 在 React 官方文档都有详细的说明。</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2023 MaoJiu的博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Mao Jiu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+                </div>
+            </transition>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/blog/js/main.js"></script>
+        <script>
+            console.info("Welcome to Maojiu's blog!");
+            if (!window.hasOwnProperty("ontouchstart")) {
+                let html = '<canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas><script src="https://static-argvchs.netlify.app/js/fireworks.min.js"><\/script>';
+                document.body.append(document.createRange().createContextualFragment(html));
+            }
+        </script>
+        
+        
+<script
+    src="https://giscus.app/client.js"
+    data-repo="maojiu-bb/blog"
+    data-repo-id="R_kgDOJ2GUoQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJ2GUoc4CXlfy"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+        
+    </body>
+</html>
