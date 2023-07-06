@@ -10,7 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-.deploy_git
+# .deploy_git
 *.local
 
 # Editor directories and files
