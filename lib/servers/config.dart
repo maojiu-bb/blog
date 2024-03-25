@@ -1,8 +1,9 @@
 import 'package:blog/index.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ConfigService extends GetxService {
-  static ConfigService get to => Get.find<ConfigService>();
+  static ConfigService get to => Get.find();
 
   final _isDarkMode = Get.isDarkMode.obs;
   get isDarkMode => _isDarkMode.value;
@@ -11,8 +12,10 @@ class ConfigService extends GetxService {
   Future<void> switchTheme() async {
     _isDarkMode.value = !_isDarkMode.value;
     Get.changeTheme(_isDarkMode.value == true ? AppTheme.dark : AppTheme.light);
+    Get.changeThemeMode(
+        _isDarkMode.value == true ? ThemeMode.dark : ThemeMode.light);
 
-    Future.delayed(const Duration(milliseconds: 250), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       Get.forceAppUpdate();
     });
 

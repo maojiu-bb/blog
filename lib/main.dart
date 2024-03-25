@@ -22,7 +22,9 @@ class MyApp extends StatelessWidget {
       initialRoute: RouteNames.home,
       getPages: RoutePages.pages,
       navigatorObservers: [RoutePages.observer],
-      theme: ConfigService.to.isDarkMode ? AppTheme.dark : AppTheme.light,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ConfigService.to.isDarkMode ? ThemeMode.dark : ThemeMode.light,
     );
   }
 }
